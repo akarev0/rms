@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources</title>
+    <link rel="stylesheet" href="/static/resources.css">
+</head>
+
+<body>
+    <h1>Resources</h1>
+    <button class="add-employee-btn" onclick="window.location.href='/resources/new'">Add new employee</button>
+    <button class="add-employee-btn" onclick="window.location.href='/teams/new'">Add new team</button>
+    <button class="add-employee-btn" onclick="window.location.href='/users/new'">Add new user</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Position</th>
+                <th>Level</th>
+                <th>English</th>
+                <th>Sales Campaign</th>
+                <th>Other skills</th>
+                <th>Team</th>
+                <th>Attendance Link</th>
+                <th>Last interview</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in resources %}
+            <tr>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.level }}</td>
+                <td>{{ employee.english_level }}</td>
+                <td>{{ employee.sales_campaign }}</td>
+                <td>{{ employee.other_skills }}</td>
+                <td>{{ employee.team.name }}</td>
+                <td><a href="{{ employee.attendance_link }}">link</a></td>
+                <td>{{ employee.last_interview }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Employee</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <form action="/resources/add" method="post">
+            <h1>Add new employee</h1>
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="position">Position</label>
+                <select id="position" name="position" required>
+                    <option value="">Select a position</option>
+                    {% for position in positions %}
+                    <option value="{{ position }}">{{ position }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="english_level">Level</label>
+                <select id="english_level" name="english_level" required>
+                    <option value="">Select English level</option>
+                    {% for eng_lvl in english_levels %}
+                    <option value="{{ eng_lvl }}">{{ eng_lvl }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-group">
+                    <label for="sales_campaign">Sales Campaign</label>
+                    <input type="text" id="sales_campaign" name="sales_campaign" required>
+                </div>
+                <div class="form-group">
+                    <label for="other_skills">Other skills</label>
+                    <input type="text" id="other_skills" name="other_skills" required>
+                </div>
+                <label for="team_id">Team</label>
+                <select id="team_id" name="team_id" required>
+                    <option value="">Select team</option>
+                    {% for team in teams %}
+                    <option value="{{ team.id }}">{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-group">
+                    <label for="attendance_link">Attendance Link</label>
+                    <input type="text" id="attendance_link" name="attendance_link" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_interview">Last interview</label>
+                    <input type="date" id="last_interview" name="last_interview" required>
+                </div>
+            </div>
+            <button type="submit">Add Employee</button>
+        </form>
+    </div>
+</body>
+
+</html>
