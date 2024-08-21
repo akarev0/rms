@@ -4,13 +4,13 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 
-from app.schemas import UserResponseModel
-from app.database.database import get_db
-import app.repository.user as user_repo
-from app.models.models import User
+from schemas import UserResponseModel
+from database.database import get_db
+import repository.user as user_repo
+from models.models import User
 
 user_router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 
 @user_router.get("/users/", response_model=list[UserResponseModel])

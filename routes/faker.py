@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 
-from app.enums import EmployeeEnglishLevel, EmployeeLevel, Position
-from app.database.database import get_db
-from app.models.models import Employee, Skill, Team, User
+from enums import EmployeeEnglishLevel, EmployeeLevel, Position
+from database.database import get_db
+from models.models import Employee, Skill, Team, User
 from faker import Faker
 
 

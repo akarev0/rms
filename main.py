@@ -1,25 +1,25 @@
+import os
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
-from transformers import pipeline
 from fastapi.templating import Jinja2Templates
-from app.database.database import DATABASE_URL
-from app.routes.users import user_router
-from app.routes.recourses import resource_router
-from app.routes.employees import employee_router
-from app.routes.teams import team_router
-from app.routes.faker import fake_router
+from database.database import DATABASE_URL
+from routes.users import user_router
+from routes.recourses import resource_router
+from routes.employees import employee_router
+from routes.teams import team_router
+from routes.faker import fake_router
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.utilities.sql_database import SQLDatabase
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama.llms import OllamaLLM
 
-
 load_dotenv()
+
 
 app = FastAPI()
 app.include_router(user_router)
@@ -29,7 +29,7 @@ app.include_router(team_router)
 app.include_router(fake_router)
 
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 question_template = """Based on the table schema below, write a SQL query that would answer the user's question:
 {schema}
@@ -113,9 +113,5 @@ async def chat(request: ChatRequest):
     return JSONResponse(content={"reply": results})
 
 
-def main():
-    uvicorn.run(app)
-
-
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app)

@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.models import Resource, User
-from app.models.models import Employee
-from app.schemas import ResourceCreate, UserCreate
+from models.models import Resource, User
+from schemas import ResourceCreate, UserCreate
 
 
 def get_users(db: Session) -> list[User]:

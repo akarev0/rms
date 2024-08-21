@@ -3,14 +3,14 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from app import schemas
-from app.database.database import get_db
-from app.enums import EmployeeEnglishLevel, Position
-from app.models.models import Resource, Employee, Team
+import schemas
+from database.database import get_db
+from enums import EmployeeEnglishLevel, Position
+from models.models import Resource, Employee, Team
 
 
 resource_router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 
 @resource_router.get("/resources/", response_model=list[schemas.Resource])

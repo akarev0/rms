@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.models import Employee
+from models.models import Employee
 
 
 def get_employees(db: Session) -> list[Employee]:

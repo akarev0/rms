@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 
 from sqlalchemy.orm import Session
-import app.repository.team as team_repo
+import repository.team as team_repo
 
 
-from app import schemas
-from app.database.database import get_db
-from app.models.models import Team
+import schemas
+from database.database import get_db
+from models.models import Team
 from faker import Faker
 
 

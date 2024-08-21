@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from app import schemas
-from app.models.models import Team
+import schemas
+from models.models import Team
 
 
 def create_team(db: Session, team: schemas.TeamCreate):
