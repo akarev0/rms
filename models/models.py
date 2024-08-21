@@ -25,7 +25,10 @@ class Employee(User):
     english_level: Mapped[EmployeeEnglishLevel] = mapped_column()
     sales_campaign = Column(String)
     other_skills: Mapped[str] = mapped_column()
-    team: Mapped["Team"] = relationship("Team", back_populates="employees")
+    team_id = Column(Integer, ForeignKey("teams.id"))  # Add team_id as a foreign key
+    team: Mapped["Team"] = relationship(
+        "Team", back_populates="employees", foreign_keys=[team_id]
+    )
     attendance_link = Column(String)
     last_interview = Column(DateTime)
     skills: Mapped[list["Skill"]] = relationship()
@@ -40,11 +43,11 @@ class Skill(Base):
 
 class Team(Base):
     __tablename__ = "teams"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, index=True)
     leader_id = Column(Integer, ForeignKey("users.id"))
-    employees: Mapped[list[Employee] | None] = relationship(
-        "Employee", back_populates="team"
+    employees: Mapped[list[Employee]] = relationship(
+        "Employee", back_populates="team", foreign_keys=[Employee.team_id]
     )
 
 

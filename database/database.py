@@ -3,9 +3,6 @@ import os
 from sqlalchemy.orm import sessionmaker
 
 
-# SQLAlchemy setup
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 BACKEND_PATH = os.getenv("BACKEND_PATH", "")
 
 DATABASE_URL = f"sqlite:///{os.path.join(BACKEND_PATH, 'test.db')}"

@@ -5,15 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: FastAPI",
+            "name": "FastAPI",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "${workspaceFolder}/main:app",
+                "main:app",
                 "--reload"
             ],
-            "jinja": true
+            "jinja": true,
+            // "env": {
+            //     "PYTHONPATH": "${workspaceFolder}/venv/bin/python"
+            // }
         }
     ]
 }

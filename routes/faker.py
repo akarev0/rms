@@ -17,14 +17,10 @@ fake_router = APIRouter()
 def read_users(db: Session = Depends(get_db), limit: int = 10):
     fake = Faker()
     try:
-        # Create 10 teams
-        teams = []
         for _ in range(limit):
             team = Team(name=fake.company())
-            teams.append(team)
             db.add(team)
-        for team in teams:
-            users = []
+            db.flush()  # Flush to get the team ID
             for _ in range(limit):
                 user = User(
                     name=fake.name(),
@@ -32,28 +28,29 @@ def read_users(db: Session = Depends(get_db), limit: int = 10):
                     hashed_password=fake.password(),
                 )
                 db.add(user)
-                db.flush()
-                users.append(user)  # Flush to get the user ID
-            for user in users:
-                for _ in range(limit):
-                    employee = Employee(
-                        user_id=user.id,
-                        position=random.choice(list(Position)),
-                        level=random.choice(list(EmployeeLevel)),
-                        english_level=random.choice(list(EmployeeEnglishLevel)),
-                        sales_campaign=fake.company(),
-                        other_skills=fake.job(),
-                        attendance_link=fake.url(),
-                        last_interview=fake.date_time_this_year(),
-                        team=team,  # Assuming you have 10 teams
-                    )
-                    db.add(employee)
-                    db.flush()  # Flush to get the employee ID
+                db.flush()  # Flush to get the user ID
 
-                    # Generate random skills for the employee
-                    for _ in range(random.randint(1, 5)):
-                        skill = Skill(name=fake.job(), employee_id=employee.user_id)
-                        db.add(skill)
+                employee = Employee(
+                    user_id=user.id,
+                    name=user.name,
+                    position=random.choice(list(Position)),
+                    level=random.choice(list(EmployeeLevel)),
+                    english_level=random.choice(list(EmployeeEnglishLevel)),
+                    sales_campaign=random.choice(list(Position)),
+                    other_skills=random.choice(list(Position)),
+                    attendance_link=fake.url(),
+                    last_interview=fake.date_time_this_year(),
+                    team_id=team.id,  # Assuming you have 10 teams
+                )
+                db.add(employee)
+                db.flush()  # Flush to get the employee ID
+
+                # Generate random skills for the employee
+                for _ in range(random.randint(1, 5)):
+                    skill = Skill(name=fake.job(), employee_id=employee.user_id)
+                    db.add(skill)
+
+                team.employees.append(employee)
 
         db.commit()
     except Exception as e:

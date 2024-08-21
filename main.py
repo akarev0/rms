@@ -1,4 +1,3 @@
-import os
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -102,7 +101,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 async def get_chat_page():
-    with open("app/templates/chat.html") as f:
+    with open("templates/chat.html") as f:
         return HTMLResponse(content=f.read(), status_code=200)
 
 
