@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from langchain_ollama import ChatOllama
 from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
@@ -15,7 +16,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.utilities.sql_database import SQLDatabase
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from langchain_ollama.llms import OllamaLLM
+
 
 load_dotenv()
 
@@ -30,20 +31,26 @@ app.include_router(fake_router)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-question_template = """Based on the table schema below, write a SQL query that would answer the user's question:
+question_template = """
+Based on the table schema below, write a SQL query that would answer the user's question:
 {schema}
 
 Question: {question}
 SQL Query:"""
 prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "Given an input question, convert it to a SQL query. No pre-amble."),
+        (
+            "system",
+            "Given an input question, convert it to a SQL query compatible with SQLite."
+            "Return only the SQL query without any explanations. No pre-amble.",
+        ),
         ("human", question_template),
     ]
 )
 
 
-response_template = """Based on the table schema below, question, sql query, and sql response, write a natural language response:
+response_template = """
+Based on the table schema below, question, sql query, and sql response, write a natural language response:
 {schema}
 
 Question: {question}
@@ -69,13 +76,11 @@ def get_schema(_):
 
 
 def run_query(query: str):
-    for statement in query.split("\n"):
-        if statement.startswith("SELECT"):
-            return db_lc.run(statement)
+    print(f"Executing query: {query}")
     return db_lc.run(query)
 
 
-llm = OllamaLLM(model="llama3")
+llm = ChatOllama(model="llama3", base_url="http://localhost:11434")
 
 sql_chain = (
     RunnablePassthrough.assign(schema=get_schema)

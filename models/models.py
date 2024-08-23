@@ -11,15 +11,21 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, unique=True)
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    employee: Mapped["Employee"] = relationship("Employee", back_populates="user")
 
 
-class Employee(User):
+class Employee(Base):
     __tablename__ = "employees"
-    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, unique=True)
+    name = Column(String, index=True)
+    email = Column(String, unique=True, index=True)
+    user: Mapped["User"] = relationship("User", back_populates="employee")
+    user_id = Column(Integer, ForeignKey("users.id"))
+
     position: Mapped[Position] = mapped_column()
     level: Mapped[EmployeeLevel] = mapped_column()
     english_level: Mapped[EmployeeEnglishLevel] = mapped_column()
@@ -36,14 +42,14 @@ class Employee(User):
 
 class Skill(Base):
     __tablename__ = "skills"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, unique=True)
     name: Mapped[str] = mapped_column()
     employee_id: Mapped[int] = mapped_column(ForeignKey("employees.user_id"))
 
 
 class Team(Base):
     __tablename__ = "teams"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, unique=True)
     name = Column(String, index=True)
     leader_id = Column(Integer, ForeignKey("users.id"))
     employees: Mapped[list[Employee]] = relationship(
@@ -53,7 +59,7 @@ class Team(Base):
 
 class Resource(Base):
     __tablename__ = "resources"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, unique=True)
     name = Column(String, index=True)
     description = Column(String)
     owner_id = Column(Integer, ForeignKey("users.id"))

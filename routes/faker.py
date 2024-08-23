@@ -33,6 +33,7 @@ def read_users(db: Session = Depends(get_db), limit: int = 10):
                 employee = Employee(
                     user_id=user.id,
                     name=user.name,
+                    email=user.email,
                     position=random.choice(list(Position)),
                     level=random.choice(list(EmployeeLevel)),
                     english_level=random.choice(list(EmployeeEnglishLevel)),
@@ -46,8 +47,10 @@ def read_users(db: Session = Depends(get_db), limit: int = 10):
                 db.flush()  # Flush to get the employee ID
 
                 # Generate random skills for the employee
-                for _ in range(random.randint(1, 5)):
-                    skill = Skill(name=fake.job(), employee_id=employee.user_id)
+                for _ in range(1, 3):
+                    skill = Skill(
+                        name=random.choice(list(Position)), employee_id=user.id
+                    )
                     db.add(skill)
 
                 team.employees.append(employee)
