@@ -23,7 +23,7 @@ def read_resources(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)
 def read_resources_html(
     request: Request, skip: int = 0, limit: int = 20, db: Session = Depends(get_db)
 ):
-    employees = db.query(Employee).offset(skip).limit(limit).all()
+    employees = db.query(Employee).offset(skip).all()
     return templates.TemplateResponse(
         "resources.html", {"request": request, "resources": employees}
     )

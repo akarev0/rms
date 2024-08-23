@@ -12,6 +12,7 @@ from routes.recourses import resource_router
 from routes.employees import employee_router
 from routes.teams import team_router
 from routes.faker import fake_router
+from routes.upload import upload_router
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.utilities.sql_database import SQLDatabase
 from langchain_core.output_parsers import StrOutputParser
@@ -27,6 +28,8 @@ app.include_router(resource_router)
 app.include_router(employee_router)
 app.include_router(team_router)
 app.include_router(fake_router)
+app.include_router(upload_router)
+
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
