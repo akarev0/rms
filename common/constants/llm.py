@@ -1,7 +1,7 @@
 from typing import ClassVar
 
 
-class LangChainConstants:
+class LLMConstants:
     """
     A class to hold constants related to LangChain model configuration.
 

@@ -1,5 +1,9 @@
 import uvicorn
+
 from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,8 +16,9 @@ from langchain_ollama import ChatOllama
 from langchain_openai import OpenAI
 from pydantic import BaseModel
 
+from chains.employee_match import chain as skills_extractor_chain
 from common.constants.database import DatabaseConstants
-from common.constants.llm import LangChainConstants
+from common.constants.llm import LLMConstants
 from database.database import DATABASE_URL
 from routes.employees import employee_router
 from routes.faker import fake_router
@@ -21,8 +26,6 @@ from routes.recourses import resource_router
 from routes.teams import team_router
 from routes.upload import upload_router
 from routes.users import user_router
-
-load_dotenv()
 
 app = FastAPI()
 app.include_router(user_router)
@@ -141,20 +144,20 @@ def run_query(variables: dict):
 
 
 llm = ChatOllama(
-    model=LangChainConstants.MODEL_NAME_LLAMA,
-    temperature=LangChainConstants.TEMPERATURE,
-    max_tokens=LangChainConstants.MAX_TOKENS,
+    model=LLMConstants.MODEL_NAME_LLAMA,
+    temperature=LLMConstants.TEMPERATURE,
+    max_tokens=LLMConstants.MAX_TOKENS,
 )
 llm_openai = OpenAI(
-    model_name=LangChainConstants.MODEL_NAME_GPT,
-    max_tokens=LangChainConstants.MAX_TOKENS,
-    temperature=LangChainConstants.TEMPERATURE,
+    model_name=LLMConstants.MODEL_NAME_GPT,
+    max_tokens=LLMConstants.MAX_TOKENS,
+    temperature=LLMConstants.TEMPERATURE,
 )
 
 sql_chain = (
         RunnablePassthrough.assign(schema=get_schema)
         | prompt
-        | llm.bind(stop=["\nSQL Result:"])
+        | llm.bind(stop=["SQL Result:"])
         | StrOutputParser()
 )
 
@@ -181,7 +184,8 @@ async def get_chat_page():
 
 @app.post("/chat", response_class=JSONResponse)
 async def chat(request: ChatRequest):
-    results = full_chain.invoke({"question": request.message})
+    results: str = skills_extractor_chain.html_builder_chain.invoke({"question": request.message})
+    # results = full_chain.invoke({"question": request.message})
 
     return JSONResponse(content={"reply": results})
 
