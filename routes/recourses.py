@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 
 import schemas
 from database.database import get_db
-from enums import EmployeeEnglishLevel, Position
+from common.enums import EmployeeEnglishLevel, Position
 from models.models import Resource, Employee, Team
 
 

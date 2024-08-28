@@ -5,5 +5,5 @@ from common.constants.llm import LLMConstants
 llm = ChatOllama(
     model=LLMConstants.MODEL_NAME_LLAMA,
     temperature=LLMConstants.TEMPERATURE,
-    max_tokens=LLMConstants.MAX_TOKENS,
+    base_url="http://localhost:11434/api/chat",
 )

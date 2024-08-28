@@ -17,11 +17,10 @@ database_langchain = SQLDatabase.from_uri(
     DATABASE_URL,
     sample_rows_in_table_info=DatabaseConstants.SAMPLE_ROWS_IN_TABLE_INFO,
 )
-database_langchain_table_info = database_langchain.get_table_info()
 
 
 def database_langchain_get_schema(_):
-    return database_langchain_table_info
+    return database_langchain.get_table_info()
 
 
 def execute_langchain_query(query: str, chain_variables: dict):
@@ -30,7 +29,7 @@ def execute_langchain_query(query: str, chain_variables: dict):
     query_result = database_langchain.run(query, include_columns=True)
 
     print(f"Query result: {query_result}")
-    if len(query_result) == 0:
+    if not query_result:
         return []
 
     return query_result
