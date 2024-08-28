@@ -6,7 +6,7 @@ from chains.employee_match.prompts_configuration import (
     QUERY_BUILDER_PROMPT,
     HTML_RESPONSE_BUILDER_PROMPT,
 )
-from configuration.llm.llama import llm
+from configuration.llm.openai import llm
 from database.database import database_langchain_get_schema, execute_langchain_query
 
 analyse_requirement_chain = (
