@@ -5,7 +5,7 @@ Analyze the following text and extract information about the employee if it is p
 2. **Commercial Level**: For example, Junior, Middle, Senior, Lead.
 3. **Sales campaign**: Programming languages or software platforms required to perform the employee's duties (e.g., Python, JavaScript, SQL, Hybris, Liferay, Alfresco, etc.).
 4. **Other Skills**: Skills that may be beneficial but are not essential (e.g., Docker, Kubernetes, Agile, React, Vue, etc.).
-5. **English Level**: Determine the level of English proficiency (e.g., Beginner, Intermediate, Upper IntermediateAdvanced, Fluent).
+5. **English Level**: Determine the level of English proficiency (e.g., Beginner, Intermediate, Upper-Intermediate, Advanced, Fluent).
 
 If any of the fields are not specified in the text, do not include them in the output.
 

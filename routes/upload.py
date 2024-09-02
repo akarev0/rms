@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from database.database import get_db
-from enums import EmployeeEnglishLevel, EmployeeLevel, Position
+from common.enums import EmployeeEnglishLevel, EmployeeLevel, Position
 from models.models import Employee
 import pdfplumber
 import pandas as pd
